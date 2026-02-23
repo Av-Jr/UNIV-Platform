@@ -1,0 +1,92 @@
+/* Main dashboard wrapper */
+.DashScene {
+  width: 85vw;
+  height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1200px;
+}
+
+/* Glass container */
+.DashCard {
+  width: 90%;
+  height: 90%;
+  padding: 30px;
+  border-radius: 12px;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  transform: translateZ(0px) scale(1);
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+}
+
+.DashCard:hover {
+  transform: translateZ(40px) scale(1.01);
+  box-shadow: 0 0 30px rgba(255,255,255,0.08);
+}
+
+/* Header row */
+.DashHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Section blocks */
+.DashSection {
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Inputs & selects */
+.DashCard input,
+.DashCard select {
+  width: 260px;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.15);
+  color: white;
+}
+
+/* Buttons */
+.DashBtn {
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.DashBtn:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.3);
+}
+
+/* Grid layout for teacher panels */
+.DashGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* Student layout stack */
+.StudentStack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

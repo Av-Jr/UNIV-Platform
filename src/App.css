@@ -1,0 +1,115 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: black;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#Scene {
+  position: relative;
+  width: 60vw;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1200px;
+}
+
+#LSmainCon {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px);
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  transition: transform 0.8s ease, opacity 0.8s ease;
+  transform-style: preserve-3d;
+  z-index : 2;
+}
+
+#LSmainCon.moveBack {
+  transform: translateZ(-400px) scale(0.6);
+  opacity: 0.3;
+}
+
+#WelText {
+  color: white;
+  text-align: center;
+  font-size: 18px;
+}
+
+#LogSignCon {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 200px;
+}
+
+#LogSignCon button {
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#AuthCard {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 10px;
+  height: 80%;
+  width: 70%;
+  opacity: 0;
+  transform: translateZ(300px) scale(0.8);
+  transition: transform 0.8s ease, opacity 0.8s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#AuthCard.showCard {
+  opacity: 1;
+  transform: translateZ(0px) scale(1);
+  pointer-events: auto;
+  z-index: 3;
+}
+
+#AuthCard h2 {
+  color: white;
+  margin: 0;
+}
+
+#AuthCard input {
+  width: 60%;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+}
+
+#AuthCard button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#AuthStatus {
+  color: white;
+  margin-top: 10px;
+}

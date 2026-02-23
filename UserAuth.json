@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "role": "student",
+      "realName": "Arjun Mehta",
+      "username": "arjun.m",
+      "password": "stud1234"
+    },
+    {
+      "role": "teacher",
+      "realName": "Neha Sharma",
+      "username": "neha.s",
+      "password": "teach5678"
+    },
+    {
+      "role": "student",
+      "realName": "Rohan Das",
+      "username": "rohan.d",
+      "password": "rd_pass01"
+    },
+    {
+      "role": "teacher",
+      "realName": "Vikram Rao",
+      "username": "vikram.r",
+      "password": "vr_secure22"
+    }
+  ]
+}
