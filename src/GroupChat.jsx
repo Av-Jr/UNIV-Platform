@@ -10,7 +10,7 @@ export default function GroupChat({ groupId, user, onBack }) {
     const data = await res.json();
     if (data.ok) {
       setMessages(data.messages);
-      setMembers([data.teacher, ...data.members]); // Include teacher in member list
+      setMembers([data.teacher, ...(data.students || [])]);
     }
   };
 
