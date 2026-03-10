@@ -1,15 +1,22 @@
 import { useState } from "react";
 import "./Dashboard.css";
+import ExamCreator from "./ExamCreator.jsx";
 
 export default function TeacherDashboard({ user, onLogout }) {
-
   const [groupEmail, setGroupEmail] = useState("");
   const [groupCode, setGroupCode] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState({ message: "", type: "" });
+  const [isCreatingExam, setIsCreatingExam] = useState(false);
+
+  // Helper for status messages
+  const showStatus = (msg, type = "info") => {
+    setStatus({ message: msg, type });
+    setTimeout(() => setStatus({ message: "", type: "" }), 3000);
+  };
 
   const createGroup = async () => {
     if (!groupCode) {
-      setStatus("Enter group code");
+      showStatus("Please enter a group code", "error");
       return;
     }
 
@@ -25,81 +32,93 @@ export default function TeacherDashboard({ user, onLogout }) {
       });
 
       const data = await res.json();
-      setStatus(data.ok ? "Group created" : "Failed");
+      if (data.ok) {
+        showStatus("Group created successfully!", "success");
+        setGroupEmail("");
+        setGroupCode("");
+      } else {
+        showStatus("Failed to create group", "error");
+      }
     } catch (err) {
-      setStatus("Server error");
+      showStatus("Server error connecting to backend", "error");
     }
   };
 
-  const createExam = async () => {
-    setStatus("Creating exam...");
-
-    try {
-      const res = await fetch("http://localhost:5001/create-exam", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          teacher: user.username,
-          questions: []
-        })
-      });
-
-      const data = await res.json();
-      setStatus(data.ok ? "Exam created" : "Error creating exam");
-    } catch {
-      setStatus("Server error");
-    }
-  };
+  // Switch to Exam Creator View
+  if (isCreatingExam) {
+    return (
+      <div className="DashScene">
+        <ExamCreator
+          user={user}
+          onBack={() => setIsCreatingExam(false)}
+          onSuccess={() => {
+            setIsCreatingExam(false);
+            showStatus("Exam saved to Exams.json!", "success");
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="DashScene">
       <div className="DashCard">
-
         <div className="DashHeader">
           <div>
             <h1>Teacher Dashboard</h1>
-            <p>Welcome {user.realName}</p>
+            <p className="welcome-text">Logged in as: <strong>{user.realName}</strong></p>
           </div>
-          <button className="DashBtn" onClick={onLogout}>Logout</button>
+          <button className="DashBtn logout-btn" onClick={onLogout}>Logout</button>
         </div>
 
         <div className="DashGrid">
-
-          {/* Create Group */}
+          {/* Group Management Section */}
           <div className="DashSection">
-            <h3>Create Student Group</h3>
+            <div className="section-icon">👥</div>
+            <h3>Student Groups</h3>
+            <p>Create a code for students to join your class.</p>
 
-            <input
-              placeholder="Student Email (optional)"
-              value={groupEmail}
-              onChange={(e)=>setGroupEmail(e.target.value)}
-            />
+            <div className="input-group">
+              <input
+                placeholder="Student Email (optional)"
+                value={groupEmail}
+                onChange={(e) => setGroupEmail(e.target.value)}
+              />
+              <input
+                placeholder="Group Access Code"
+                value={groupCode}
+                onChange={(e) => setGroupCode(e.target.value)}
+              />
+            </div>
 
-            <input
-              placeholder="Group Code"
-              value={groupCode}
-              onChange={(e)=>setGroupCode(e.target.value)}
-            />
-
-            <button className="DashBtn" onClick={createGroup}>
-              Create Group
+            <button className="DashBtn primary" onClick={createGroup}>
+              Generate Group
             </button>
           </div>
 
-          {/* Create Exam */}
+          {/* Exam Management Section */}
           <div className="DashSection">
-            <h3>Create Exam</h3>
-            <p>MCQ • Short Answer • Coding</p>
+            <div className="section-icon">📝</div>
+            <h3>Assessment Center</h3>
+            <p>Design MCQs and Coding challenges with Monaco Editor.</p>
 
-            <button className="DashBtn" onClick={createExam}>
-              Create Empty Exam
+            <div className="features-list">
+              <span>• Custom MCQ Options</span>
+              <span>• Monaco Code Editor</span>
+              <span>• Stored in Exams.json</span>
+            </div>
+
+            <button className="DashBtn secondary" onClick={() => setIsCreatingExam(true)}>
+              Open Exam Creator
             </button>
           </div>
-
         </div>
 
-        {status && <p>{status}</p>}
-
+        {status.message && (
+          <div className={`status-bar ${status.type}`}>
+            {status.message}
+          </div>
+        )}
       </div>
     </div>
   );

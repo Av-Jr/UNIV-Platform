@@ -24,13 +24,5 @@
       "username": "vikram.r",
       "password": "vr_secure22"
     }
-  ],
-  "exams": [
-    {
-      "id": 1773155463713,
-      "teacher": "neha.s",
-      "questions": [],
-      "createdAt": 1773155463713
-    }
   ]
 }
