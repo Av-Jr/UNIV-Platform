@@ -1,0 +1,73 @@
+[
+  {
+    "id": "EX-1773162895715",
+    "teacher": "vikram.r",
+    "title": "dfddd",
+    "questions": [
+      {
+        "id": 1773162884512,
+        "type": "mcq",
+        "text": "dfdfdfdfdfdf",
+        "options": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "correct": 0
+      },
+      {
+        "id": 1773162887473,
+        "type": "code",
+        "text": "fdfdfd",
+        "template": "// Code here",
+        "lang": "javascript"
+      }
+    ],
+    "createdAt": 1773162895715
+  },
+  {
+    "id": "EX-1773163387909",
+    "teacher": "vikram.r",
+    "title": "ff",
+    "questions": [
+      {
+        "id": 1773163332400,
+        "type": "mcq",
+        "text": "jkhbkgdjfb",
+        "options": [
+          "ghfdghf",
+          "ghgh",
+          "hggfdhghf"
+        ],
+        "correct": 0
+      }
+    ],
+    "createdAt": 1773163387909
+  },
+  {
+    "id": "EX-1773164035085",
+    "teacher": "vikram.r",
+    "title": "uyiki",
+    "questions": [
+      {
+        "id": "q-1773164020435",
+        "type": "mcq",
+        "text": "uiiuy",
+        "options": [
+          "uiyuiy",
+          "uiyuiy"
+        ],
+        "correct": 0
+      },
+      {
+        "id": "q-1773164024041",
+        "type": "code",
+        "text": "uyiuiy",
+        "template": "// Write your code here",
+        "lang": "javascript"
+      }
+    ],
+    "createdAt": 1773164035085
+  }
+]
