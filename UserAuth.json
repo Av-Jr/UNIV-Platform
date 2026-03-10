@@ -38,5 +38,23 @@
       "answers": {},
       "submittedAt": 1773166046304
     }
+  ],
+  "groups": [
+    {
+      "id": "GRP-1773166670399",
+      "name": "hhjh",
+      "teacher": "vikram.r",
+      "code": "SGWHIK",
+      "students": [
+        "rohan.d"
+      ],
+      "messages": [
+        {
+          "sender": "rohan.d",
+          "text": "hola",
+          "timestamp": 1773168309782
+        }
+      ]
+    }
   ]
 }

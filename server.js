@@ -23,8 +23,11 @@ const readData = (file, isAuthFile = false) => {
   }
   try {
     const data = JSON.parse(fs.readFileSync(file, "utf-8"));
-    // Safety check: Ensure attempts array exists to prevent .filter() crashes
-    if (isAuthFile && !data.attempts) data.attempts = [];
+    if (isAuthFile) {
+      if (!data.users) data.users = [];
+      if (!data.groups) data.groups = [];
+      if (!data.attempts) data.attempts = [];
+    }
     return data;
   } catch (e) {
     return isAuthFile ? { users: [], groups: [], attempts: [] } : [];
@@ -51,6 +54,32 @@ app.post("/login", (req, res) => {
 });
 
 /* --- Teacher Features --- */
+app.get("/my-groups/:username/teacher", (req, res) => {
+  const { username } = req.params;
+  const db = readData(AUTH_DB, true);
+  const teacherGroups = (db.groups || []).filter(g => g.teacher === username);
+  res.json({ ok: true, groups: teacherGroups });
+});
+
+app.post("/create-group", (req, res) => {
+  const { teacher, groupName } = req.body;
+  const db = readData(AUTH_DB, true);
+  if (!db.groups) db.groups = [];
+
+  const newGroup = {
+    id: "GRP-" + Date.now(),
+    name: groupName,
+    teacher: teacher,
+    code: Math.random().toString(36).substring(2, 8).toUpperCase(),
+    students: [],
+    messages: [] // Initializing empty chat history
+  };
+
+  db.groups.push(newGroup);
+  writeData(AUTH_DB, db);
+  res.json({ ok: true, group: newGroup });
+});
+
 app.post("/save-exam", (req, res) => {
   const { teacher, title, timeLimit, dueDate, questions } = req.body;
   const exams = readData(EXAMS_DB, false);
@@ -68,6 +97,26 @@ app.post("/save-exam", (req, res) => {
 });
 
 /* --- Student Features --- */
+app.get("/my-groups/:username/student", (req, res) => {
+  const { username } = req.params;
+  const db = readData(AUTH_DB, true);
+  const joinedGroups = (db.groups || []).filter(g => g.students.includes(username));
+  res.json({ ok: true, groups: joinedGroups });
+});
+
+app.post("/join-group", (req, res) => {
+  const { username, groupCode } = req.body;
+  const db = readData(AUTH_DB, true);
+  const group = db.groups.find(g => g.code === groupCode.toUpperCase());
+
+  if (!group) return res.status(404).json({ ok: false, message: "Group not found" });
+  if (!group.students.includes(username)) {
+    group.students.push(username);
+    writeData(AUTH_DB, db);
+  }
+  res.json({ ok: true, groupName: group.name });
+});
+
 app.get("/get-exams", (req, res) => {
   const exams = readData(EXAMS_DB, false);
   res.json({ ok: true, exams });
@@ -86,6 +135,42 @@ app.post("/attempt-exam", (req, res) => {
   db.attempts.push({ examId, username, answers, submittedAt: Date.now() });
   writeData(AUTH_DB, db);
   res.json({ ok: true });
+});
+
+/* --- Chat & Member Features --- */
+app.get("/group-details/:groupId", (req, res) => {
+  const { groupId } = req.params;
+  const db = readData(AUTH_DB, true);
+  const group = db.groups.find(g => g.id === groupId);
+
+  if (!group) return res.status(404).json({ ok: false, message: "Group not found" });
+
+  res.json({
+    ok: true,
+    messages: group.messages || [],
+    students: group.students || [],
+    teacher: group.teacher
+  });
+});
+
+app.post("/send-message", (req, res) => {
+  const { groupId, username, text, role } = req.body;
+  const db = readData(AUTH_DB, true);
+  const group = db.groups.find(g => g.id === groupId);
+
+  if (!group) return res.status(404).json({ ok: false });
+  if (!group.messages) group.messages = [];
+
+  const newMessage = {
+    sender: username,
+    role: role,
+    text: text,
+    timestamp: Date.now()
+  };
+
+  group.messages.push(newMessage);
+  writeData(AUTH_DB, db);
+  res.json({ ok: true, message: newMessage });
 });
 
 app.listen(5001, () => console.log("Server running at http://localhost:5001"));

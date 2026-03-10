@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import LogSign from "./LogSign.jsx";
-import Dashboard from "./Dashboard.jsx";
+// Import both specific dashboards
+import StudentDashboard from "./StudentDashboard.jsx";
+import TeacherDashboard from "./TeacherDashboard.jsx";
 import "./App.css"
 
 function App() {
@@ -25,7 +27,12 @@ function App() {
   return (
     <>
       {user ? (
-        <Dashboard user={user} onLogout={handleLogout} />
+        // Check the role stored in the user state
+        user.role === "teacher" ? (
+          <TeacherDashboard user={user} onLogout={handleLogout} />
+        ) : (
+          <StudentDashboard user={user} onLogout={handleLogout} />
+        )
       ) : (
         <LogSign onAuthSuccess={handleLogin} />
       )}
