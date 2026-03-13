@@ -5,13 +5,13 @@ import "./Dashboard.css";
 
 export default function StudentDashboard({ user, onLogout }) {
   const [exams, setExams] = useState([]);
-  const [history, setHistory] = useState([]); // Track attempted exams
+  const [history, setHistory] = useState([]);
   const [joinedGroups, setJoinedGroups] = useState([]);
   const [activeExam, setActiveExam] = useState(null);
   const [activeChat, setActiveChat] = useState(null);
-  const [answers, setAnswers] = useState({}); // Store user responses
+  const [answers, setAnswers] = useState({});
   const [groupCode, setGroupCode] = useState("");
-  const [timeLeft, setTimeLeft] = useState(0); // Timer logic
+  const [timeLeft, setTimeLeft] = useState(0);
   const timerRef = useRef(null);
 
   const loadData = async () => {
@@ -27,8 +27,8 @@ export default function StudentDashboard({ user, onLogout }) {
       ]);
 
       if (eRes.ok) setExams(eRes.exams || []);
-      if (hRes.ok) setHistory(hRes.history || []); // Load previous attempts
-      if (gRes.ok) setJoinedGroups(gRes.groups || []); // List joined groups
+      if (hRes.ok) setHistory(hRes.history || []);
+      if (gRes.ok) setJoinedGroups(gRes.groups || []);
     } catch (err) {
       console.error("Load error", err);
     }
@@ -36,7 +36,6 @@ export default function StudentDashboard({ user, onLogout }) {
 
   useEffect(() => { loadData(); }, [user.username]);
 
-  // Timer logic for active exams
   useEffect(() => {
     if (activeExam && timeLeft > 0) {
       timerRef.current = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
@@ -49,7 +48,7 @@ export default function StudentDashboard({ user, onLogout }) {
 
   const startExam = (exam) => {
     setActiveExam(exam);
-    setAnswers({}); // Reset answers for new session
+    setAnswers({});
     setTimeLeft((exam.timeLimit || 60) * 60);
   };
 
@@ -66,7 +65,7 @@ export default function StudentDashboard({ user, onLogout }) {
     });
     if ((await res.json()).ok) {
       setActiveExam(null);
-      loadData(); // Refresh history to show 'Attempted' status
+      loadData();
     }
   };
 
@@ -120,7 +119,6 @@ export default function StudentDashboard({ user, onLogout }) {
       </div>
 
       <div className="DashGrid">
-        {/* Joined Groups Section */}
         <div className="DashSection">
           <h3>Joined Classes</h3>
           <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
@@ -144,12 +142,14 @@ export default function StudentDashboard({ user, onLogout }) {
           </div>
         </div>
 
-        {/* Exams Section with Attempt Tracking */}
+        {/* MODIFIED: Exams Section showing marks */}
         <div className="DashSection">
           <h3>Available Exams</h3>
           <div className="List">
             {exams.filter(e => joinedGroups.some(g => g.id === e.groupId)).map(e => {
-              const isAttempted = history.some(h => String(h.examId) === String(e.id));
+              const attemptRecord = history.find(h => String(h.examId) === String(e.id));
+              const isAttempted = !!attemptRecord;
+
               return (
                 <div key={e.id} className="Item" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
@@ -157,7 +157,12 @@ export default function StudentDashboard({ user, onLogout }) {
                     <p style={{ margin: 0, fontSize: '0.8em' }}>Due: {new Date(e.dueDate).toLocaleString()}</p>
                   </div>
                   {isAttempted ? (
-                    <span style={{ color: '#2ecc71', fontWeight: 'bold' }}>✅ Attempted</span>
+                    <div style={{ textAlign: 'right' }}>
+                      <span style={{ color: '#2ecc71', fontWeight: 'bold', display: 'block' }}>✅ Completed</span>
+                      <span style={{ fontSize: '0.9em', color: '#888' }}>
+                        Marks: {attemptRecord.score} / {attemptRecord.total}
+                      </span>
+                    </div>
                   ) : (
                     <button className="DashBtn" onClick={() => startExam(e)}>Start</button>
                   )}

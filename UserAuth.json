@@ -49,6 +49,30 @@
       "username": "rohan.d",
       "answers": {},
       "submittedAt": 1773171050249
+    },
+    {
+      "examId": "EX-1773421096782",
+      "username": "rohan.d",
+      "answers": {},
+      "submittedAt": 1773421115372
+    },
+    {
+      "examId": "EX-1773423368482",
+      "username": "rohan.d",
+      "answers": {},
+      "score": 0,
+      "total": 0,
+      "submittedAt": 1773423426552
+    },
+    {
+      "examId": "EX-1773423473248",
+      "username": "rohan.d",
+      "answers": {
+        "1773423456065": 0
+      },
+      "score": 1,
+      "total": 1,
+      "submittedAt": 1773423491016
     }
   ],
   "groups": [
@@ -83,6 +107,30 @@
       "name": "yt",
       "teacher": "vikram.r",
       "code": "K339EP",
+      "students": [],
+      "messages": []
+    },
+    {
+      "id": "GRP-1773205564707",
+      "name": "LinearAlgebra",
+      "teacher": "neha.s",
+      "code": "YXEZIR",
+      "students": [
+        "rohan.d"
+      ],
+      "messages": [
+        {
+          "sender": "rohan.d",
+          "text": "hello mam",
+          "timestamp": 1773205654472
+        }
+      ]
+    },
+    {
+      "id": "GRP-1773206383082",
+      "name": "",
+      "teacher": "neha.s",
+      "code": "5VOXZR",
       "students": [],
       "messages": []
     }

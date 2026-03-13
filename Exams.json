@@ -172,5 +172,75 @@
       }
     ],
     "createdAt": 1773170731835
+  },
+  {
+    "id": "EX-1773421096782",
+    "teacher": "neha.s",
+    "groupId": "GRP-1773205564707",
+    "title": "sdsd",
+    "timeLimit": 60,
+    "dueDate": "2030-02-02T17:30",
+    "questions": [],
+    "createdAt": 1773421096782
+  },
+  {
+    "id": "EX-1773423368482",
+    "teacher": "neha.s",
+    "groupId": "GRP-1773205564707",
+    "title": "wd",
+    "timeLimit": 60,
+    "dueDate": "2030-02-03T04:04",
+    "questions": [],
+    "createdAt": 1773423368482
+  },
+  {
+    "id": "EX-1773423403860",
+    "teacher": "neha.s",
+    "groupId": "GRP-1773206383082",
+    "title": "sfdgf",
+    "timeLimit": 60,
+    "dueDate": "2030-02-01T04:04",
+    "questions": [
+      {
+        "id": 1773423390396,
+        "type": "mcq",
+        "text": "erwds",
+        "options": [
+          "sa",
+          "as",
+          "sad"
+        ],
+        "correct": 1
+      }
+    ],
+    "createdAt": 1773423403860
+  },
+  {
+    "id": "EX-1773423473248",
+    "teacher": "neha.s",
+    "groupId": "GRP-1773205564707",
+    "title": "sd",
+    "timeLimit": 60,
+    "dueDate": "2060-02-02T15:03",
+    "questions": [
+      {
+        "id": 1773423456065,
+        "type": "mcq",
+        "text": "WWWW",
+        "options": [
+          "WEW",
+          "WEWW",
+          "WE"
+        ],
+        "correct": 0
+      },
+      {
+        "id": 1773423465982,
+        "type": "code",
+        "text": "FF",
+        "template": "// Write code here"
+      }
+    ],
+    "createdAt": 1773423473248
   }
 ]

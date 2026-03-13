@@ -14,7 +14,6 @@ app.use(cors());
 const AUTH_DB = path.join(__dirname, "UserAuth.json");
 const EXAMS_DB = path.join(__dirname, "Exams.json");
 
-// Safe data fetcher for JSON files
 const readData = (file, isAuthFile = false) => {
   if (!fs.existsSync(file)) {
     const initial = isAuthFile ? { users: [], groups: [], attempts: [] } : [];
@@ -23,7 +22,6 @@ const readData = (file, isAuthFile = false) => {
   }
   try {
     const data = JSON.parse(fs.readFileSync(file, "utf-8"));
-    // Ensure nested arrays exist in Auth DB
     if (isAuthFile) {
       if (!data.users) data.users = [];
       if (!data.groups) data.groups = [];
@@ -83,11 +81,11 @@ app.post("/save-exam", (req, res) => {
   exams.push({
     id: "EX-" + Date.now(),
     teacher,
-    groupId, // Strictly link exam to a group
+    groupId,
     title,
     timeLimit: parseInt(timeLimit) || 60,
-    dueDate, // ISO string for scheduling
-    questions, // Dynamic MCQ + Code templates
+    dueDate,
+    questions,
     createdAt: Date.now()
   });
   writeData(EXAMS_DB, exams);
@@ -119,7 +117,6 @@ app.get("/get-exams", (req, res) => {
   res.json({ ok: true, exams });
 });
 
-// History route to track which exams are completed
 app.post("/history", (req, res) => {
   const { username } = req.body;
   const db = readData(AUTH_DB, true);
@@ -127,18 +124,38 @@ app.post("/history", (req, res) => {
   res.json({ ok: true, history });
 });
 
-// Logic to mark an exam as attempted
+// MODIFIED: Logic to calculate marks during submission
 app.post("/attempt-exam", (req, res) => {
   const { examId, username, answers } = req.body;
   const db = readData(AUTH_DB, true);
+  const exams = readData(EXAMS_DB, false);
+
+  const exam = exams.find(e => String(e.id) === String(examId));
+  let score = 0;
+  let totalMCQs = 0;
+
+  if (exam) {
+    exam.questions.forEach(q => {
+      if (q.type === "mcq") {
+        totalMCQs++;
+        if (answers[q.id] === q.correct) {
+          score++;
+        }
+      }
+    });
+  }
+
   db.attempts.push({
     examId,
     username,
     answers,
+    score,
+    total: totalMCQs,
     submittedAt: Date.now()
   });
+
   writeData(AUTH_DB, db);
-  res.json({ ok: true });
+  res.json({ ok: true, score, total: totalMCQs });
 });
 
 /* --- Messaging & Group Details --- */
