@@ -1,16 +1,19 @@
-# React + Vite
+Exam Platform (UNIV-Platform)
+This project is a full-stack web application built for an online examination and classroom management system. It features separate dashboards for teachers and students, real-time-like group messaging, and a robust exam creator supporting both multiple-choice and coding questions.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Features
+For Teachers
+Group Management: Create classroom groups and generate unique join codes for students.
+Exam Creator: Design exams with custom titles, time limits, and due dates.
+Question Types: Supports Multiple Choice Questions (MCQs) and coding questions with template code.
+Real-time Chat: Communicate with students within specific classroom groups.
+For Students
+Join Classes: Access classroom groups using codes provided by teachers.
+Timed Exams: Take exams with a live countdown timer; exams are automatically submitted when time expires.
+Interactive Code Editor: Solve coding questions using an integrated Monaco Editor.
+Automated Grading: View instant results for MCQ sections upon submission.
+History Tracking: Review past exam attempts and performance marks.
+Tech Stack
+Frontend: React 19 (Vite), CSS3, Monaco Editor.
+Backend: Node.js, Express.
+Database: Local JSON-based storage (UserAuth.json, Exams.json).
